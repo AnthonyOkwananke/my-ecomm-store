@@ -2,7 +2,7 @@
     {
         "id": "price_1INIRWBICabaSocSrm1TYd3P",
         "title": "State-of-the-Art",
-        "description": "The current trends in the RV ndustry",
+        "description": "The current trend in the RV industry",
         "image": "/images/rv3.jpg",
         "price": "10,000.00"
     },
@@ -10,7 +10,7 @@
     {
         "id": "price_1INIQXBICabaSocSZMn63Le5",
         "title": "Blast from the Past",
-        "description": "The antiques of the Rv industry",
+        "description": "The antiques of the RV industry",
         "image": "/images/rv2.jpg",
         "price": "20,000.00"
     },
