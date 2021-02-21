@@ -8,17 +8,17 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>My Shop</title>
+        <title>Everything RV Shop</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          My Shop
+        Everything RV Shop
         </h1>
 
         <p className={styles.description}>
-          The best shop on the web
+         Your one stop and the best RV shop in North America
         </p>
 
         <ul className={styles.grid}>
