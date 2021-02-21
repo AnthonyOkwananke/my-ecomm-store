@@ -1,0 +1,25 @@
+[
+    {
+        "id": "price_1INIRWBICabaSocSrm1TYd3P",
+        "title": "State-of-the-Art",
+        "description": "The current trends in the RV ndustry",
+        "image": "/images/rv3.jpg",
+        "price": "10,000.00"
+    },
+
+    {
+        "id": "price_1INIQXBICabaSocSZMn63Le5",
+        "title": "Blast from the Past",
+        "description": "The antiques of the Rv industry",
+        "image": "/images/rv2.jpg",
+        "price": "20,000.00"
+    },
+
+    {
+        "id": "price_1ININmBICabaSocSMoX5P6KU",
+        "title": "The Future",
+        "description": "The future of the RV industry",
+        "image": "/images/teslarv.jpg",
+        "price": "40,000.00"
+    }
+]
