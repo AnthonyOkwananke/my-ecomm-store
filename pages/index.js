@@ -2,72 +2,23 @@ import { useState } from 'react';
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
-import { initiateCheckout } from '../lib/payments.js';
+
 
 import products from '../products.json';
 
+import useCart from '../hooks/use-cart.js';
+
 export default function Home() {
 
-  const defaultCart = {
-    products: {}
-  }
+  const { subtotal, totalItems, addToCart, checkout } = useCart();
 
-  const [cart, updateCart] = useState(defaultCart);
+  //console.log('cartTest', cartTest);
 
-  const cartItems = Object.keys(cart.products).map(key => {
-    const product = products.find(({ id }) => `${id}` === `${key}`);
-    return {
-      ...cart.products[key],
-      pricePerItem: product.price
-    }
-  });
 
-  const subtotal = cartItems.reduce((accumulator, { pricePerItem, quantity }) => {
-    return accumulator + ( pricePerItem * quantity )
 
-  }, 0)
+ 
 
-  const totalItems = cartItems.reduce((accumulator, { quantity }) => {
-    return accumulator + quantity 
-
-  }, 0)
-
-  console.log('subtotal', subtotal)
-
-  //console.log('cartItems', cartItems)
-
-  //console.log('cart', cart);
-
-  function addToCart({ id } = {}) {
-    updateCart(prev => {
-      let cartState = {...prev};
-
-      if ( cartState.products[id] ) {
-        cartState.products[id].quantity = cartState.products[id].quantity + 1;
-      }
-      else {
-        cartState.products[id] = {
-          id,
-          quantity: 1
-        }
-      }
-
-      return cartState;
-    })
-  }
-
-  function checkout() {
-        initiateCheckout({
-          lineItems: cartItems.map(item => {
-            return {
-              price: item.id,
-              quantity: item.quantity
-            }
-          })
-           
-        })
-  }
-
+  
   //console.log('NEXT_PUBLIC_STRIPE_API_KEY', process.env.NEXT_PUBLIC_STRIPE_API_KEY);
   return (
     <div className={styles.container}>
