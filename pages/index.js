@@ -1,10 +1,74 @@
+import { useState } from 'react';
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
+
+import { initiateCheckout } from '../lib/payments.js';
 
 import products from '../products.json';
 
 export default function Home() {
-  console.log('products', products);
+
+  const defaultCart = {
+    products: {}
+  }
+
+  const [cart, updateCart] = useState(defaultCart);
+
+  const cartItems = Object.keys(cart.products).map(key => {
+    const product = products.find(({ id }) => `${id}` === `${key}`);
+    return {
+      ...cart.products[key],
+      pricePerItem: product.price
+    }
+  });
+
+  const subtotal = cartItems.reduce((accumulator, { pricePerItem, quantity }) => {
+    return accumulator + ( pricePerItem * quantity )
+
+  }, 0)
+
+  const totalItems = cartItems.reduce((accumulator, { quantity }) => {
+    return accumulator + quantity 
+
+  }, 0)
+
+  console.log('subtotal', subtotal)
+
+  //console.log('cartItems', cartItems)
+
+  //console.log('cart', cart);
+
+  function addToCart({ id } = {}) {
+    updateCart(prev => {
+      let cartState = {...prev};
+
+      if ( cartState.products[id] ) {
+        cartState.products[id].quantity = cartState.products[id].quantity + 1;
+      }
+      else {
+        cartState.products[id] = {
+          id,
+          quantity: 1
+        }
+      }
+
+      return cartState;
+    })
+  }
+
+  function checkout() {
+        initiateCheckout({
+          lineItems: cartItems.map(item => {
+            return {
+              price: item.id,
+              quantity: item.quantity
+            }
+          })
+           
+        })
+  }
+
+  //console.log('NEXT_PUBLIC_STRIPE_API_KEY', process.env.NEXT_PUBLIC_STRIPE_API_KEY);
   return (
     <div className={styles.container}>
       <Head>
@@ -21,6 +85,14 @@ export default function Home() {
          Your one stop and the best RV shop in North America
         </p>
 
+        <p className={styles.description}>
+         <strong>Items:</strong>{ totalItems }
+         <br />
+         <strong>Total Cost:</strong>${ subtotal }
+         <br />
+         <button className={styles.button} onClick={checkout}>Check Out</button>
+        </p>
+
         <ul className={styles.grid}>
           {products.map(product => {
             const { id, title, price, description, image } = product;
@@ -31,6 +103,14 @@ export default function Home() {
                   <h3>{ title }</h3>
                   <p>${ price }</p>
                   <p>{ description }</p>
+                  <br />
+                  <p>
+                    <button className={styles.button} onClick={() => 
+                      addToCart({
+                        id
+                      })
+                    }>Add to Cart</button>
+                  </p>
                 </a>
               </li>
             )
@@ -75,14 +155,7 @@ export default function Home() {
       </main>
 
       <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
+       <small>© 2021 Everything RV. All rights reserved.</small>
       </footer>
     </div>
   )
